@@ -1,8 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Square from './Square';
-import { useEffect, useState } from 'react';
-import { playerValue } from './Functions/PlayerValue';
-const Board = ({ currentPlayer, reset }) => {
+import { useGlobalState } from '../App';
+const Board = () => {
   const style = {
     display: 'flex',
     flexDirection: 'row',
@@ -10,44 +9,14 @@ const Board = ({ currentPlayer, reset }) => {
     width: '50%',
     height: '50%',
   };
-  const [resetValue, setResetValue] = useState();
-  useEffect(() => {
-    if (reset === true) {
-      setResetValue('');
-    } else {
-      return;
-    }
-  }, [reset]);
-
+  const globalState = useGlobalState();
+  const { gameState } = globalState;
+  console.log(gameState);
   return (
     <section style={style}>
-      <Square onClick={(e) => (e.target.innerHTML = playerValue(currentPlayer))}>
-        {resetValue}
-      </Square>
-      <Square onClick={(e) => (e.target.innerHTML = playerValue(currentPlayer))}>
-        {resetValue}
-      </Square>
-      <Square onClick={(e) => (e.target.innerHTML = playerValue(currentPlayer))}>
-        {resetValue}
-      </Square>
-      <Square onClick={(e) => (e.target.innerHTML = playerValue(currentPlayer))}>
-        {resetValue}
-      </Square>
-      <Square onClick={(e) => (e.target.innerHTML = playerValue(currentPlayer))}>
-        {resetValue}
-      </Square>
-      <Square onClick={(e) => (e.target.innerHTML = playerValue(currentPlayer))}>
-        {resetValue}
-      </Square>
-      <Square onClick={(e) => (e.target.innerHTML = playerValue(currentPlayer))}>
-        {resetValue}
-      </Square>
-      <Square onClick={(e) => (e.target.innerHTML = playerValue(currentPlayer))}>
-        {resetValue}
-      </Square>
-      <Square onClick={(e) => (e.target.innerHTML = playerValue(currentPlayer))}>
-        {resetValue}
-      </Square>
+      {gameState.map((item, index) => {
+        return <Square key={index} index={index}></Square>;
+      })}
     </section>
   );
 };

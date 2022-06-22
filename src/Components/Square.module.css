@@ -1,0 +1,9 @@
+.button {
+  width: 33%;
+  height: 33%;
+  }
+.button:disabled {
+  background-color: rgb(120, 119, 119);
+  color: #fff;
+  }
+;
