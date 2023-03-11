@@ -6,7 +6,8 @@ const Board = () => {
     display: 'flex',
     flexDirection: 'row',
     flexWrap: 'wrap',
-    width: '50%',
+    gap: '20px',
+    width: '460px',
     height: '50%',
   };
   const globalState = useGlobalState();

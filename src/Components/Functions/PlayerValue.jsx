@@ -1,7 +1,7 @@
 export function playerValue(player) {
   let playerValue;
-  if (player === false) playerValue = 'X';
-  if (player === true) playerValue = 'O';
+  if (player === true) playerValue = 'X';
+  if (player === false) playerValue = 'O';
   console.log(playerValue);
   return playerValue;
 }

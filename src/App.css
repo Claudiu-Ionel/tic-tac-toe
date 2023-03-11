@@ -2,12 +2,16 @@
   text-align: center;
   width: 100vw;
   height: 100vh;
+  background-color: #282c34;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .App-header {
-  background-color: #282c34;
+  
   height: inherit;
-  width: inherit;
+  width: fit-content;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
