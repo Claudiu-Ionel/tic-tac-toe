@@ -3,6 +3,7 @@ import Board from './Components/Board';
 import { useState, useContext, createContext, useEffect } from 'react';
 import { ReactComponent as Xshape } from './assets/X-shape.svg';
 import { ReactComponent as Oshape } from './assets/Oval-shape.svg';
+import { ReactComponent as Redo } from './assets/Redo.svg';
 import Modal from "./Components/Modal";
 function App() {
   const [player, setPlayer] = useState(true)
@@ -11,7 +12,14 @@ function App() {
   const [modalMessage, setModalMessage] = useState("")
   const [resetBoard, setResetBoard] = useState(false)
   const [gameState, setGameState] = useState(["", "", "", "", "", "", "", "", ""])
-
+  function resetGame() {
+    setGameState(["", "", "", "", "", "", "", "", ""])
+    setResetBoard(true)
+    setPlayer(true)
+    setGameDraw(false);
+    setGameWon(false);
+    setModalMessage("");
+  }
   const globalState = {
     resetBoard,
     setResetBoard,
@@ -79,25 +87,21 @@ function App() {
           {modalMessage && (<Modal message={modalMessage} />)}
           <div className='top-section' style={{ marginBottom: "15px" }}>
             <div className='logo'>
-              <Xshape style={{ marginRight: 10 }} /><Oshape />
+              <Xshape style={{ marginRight: 10, fill: '#31C3BD' }} /><Oshape style={{ fill: '#F2B137' }} />
 
             </div>
             <div className='current-player-view'>
-              {player && <Xshape style={{ width: 15, height: 15, marginRight: 10 }} />}
-              {!player && <Oshape style={{ width: 15, height: 15, marginRight: 10 }} />}
+              {player && <Xshape style={{ width: 15, height: 15, marginRight: 10, fill: '#31C3BD' }} />}
+              {!player && <Oshape style={{ width: 15, height: 15, marginRight: 10, fill: '#F2B137' }} />}
               {"turn"}
             </div>
+            <button onClick={(e) => resetGame()} className="reset-button">
+              <Redo />
+            </button>
           </div>
           <Board />
           <div style={{ display: "flex", flexDirection: "row", marginTop: "10px", justifyContent: "center", width: "15%" }}>
-            <button onClick={(e) => {
-              setGameState(["", "", "", "", "", "", "", "", ""])
-              setResetBoard(true)
-              setPlayer(true)
-              setGameDraw(false);
-              setGameWon(false);
-              setModalMessage("")
-            }}>Reset</button>
+
 
           </div>
         </header>
