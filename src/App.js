@@ -5,6 +5,7 @@ import { ReactComponent as Xshape } from './assets/X-shape.svg';
 import { ReactComponent as Oshape } from './assets/Oval-shape.svg';
 import { ReactComponent as Redo } from './assets/Redo.svg';
 import Modal from "./Components/Modal";
+import Results from './Components/Results';
 function App() {
   const [player, setPlayer] = useState(true)
   const [gameWon, setGameWon] = useState(false);
@@ -12,6 +13,7 @@ function App() {
   const [modalMessage, setModalMessage] = useState("")
   const [resetBoard, setResetBoard] = useState(false)
   const [gameState, setGameState] = useState(["", "", "", "", "", "", "", "", ""])
+  const [score, setScore] = useState({ X: 0, ties: 0, O: 0 });
   function resetGame() {
     setGameState(["", "", "", "", "", "", "", "", ""])
     setResetBoard(true)
@@ -64,13 +66,24 @@ function App() {
 
       if (roundWon) {
         setGameWon(true)
-        setModalMessage(`${player ? "Player 2" : "Player 1"} has won the game`)
+        setModalMessage(`${player === true ? "O" : "X"} has won the game`)
+        player ? setScore((state) => ({
+          ...state,
+          O: state.O + 1,
+        })) : setScore((state) => ({
+          ...state,
+          X: state.X + 1,
+        }))
         return;
       }
       let roundDraw = !gameState.includes("");
       if (roundDraw) {
         setGameDraw(true)
         setModalMessage(`It's a draw!`)
+        setScore((state) => ({
+          ...state,
+          ties: state.ties + 1
+        }))
         return;
       }
 
@@ -78,6 +91,9 @@ function App() {
 
     };
     handleResultValidation()
+    return () => {
+      console.log("clean up")
+    }
   }, [gameState])
 
   return (
@@ -87,7 +103,7 @@ function App() {
           {modalMessage && (<Modal message={modalMessage} />)}
           <div className='top-section' style={{ marginBottom: "15px" }}>
             <div className='logo'>
-              <Xshape style={{ marginRight: 10, fill: '#31C3BD' }} /><Oshape style={{ fill: '#F2B137' }} />
+              <Xshape style={{ marginRight: 10, fill: '#31C3BD', width: 30, height: 30 }} /><Oshape style={{ fill: '#F2B137', width: 30, height: 30, }} />
 
             </div>
             <div className='current-player-view'>
@@ -100,9 +116,10 @@ function App() {
             </button>
           </div>
           <Board />
-          <div style={{ display: "flex", flexDirection: "row", marginTop: "10px", justifyContent: "center", width: "15%" }}>
-
-
+          <div className='game-results'>
+            <Results title="X" score={score.X} />
+            <Results title="ties" score={score.ties} />
+            <Results title="O" score={score.O} />
           </div>
         </header>
       </AppContext.Provider>

@@ -31,18 +31,37 @@ const Square = ({ index }) => {
   }, [resetBoard]);
 
   function hoverSVG() {
-    if (player) return <Xshape style={{ fill: 'transparent', stroke: '#31C3BD' }} />;
-    return <Oshape style={{ fill: 'transparent', stroke: '#F2B137' }} />;
+    if (player)
+      return (
+        <Xshape
+          style={{
+            fill: 'transparent',
+            stroke: '#31C3BD',
+            width: '50%',
+            height: '50%',
+          }}
+        />
+      );
+    return (
+      <Oshape
+        style={{
+          fill: 'transparent',
+          stroke: '#F2B137',
+          width: '50%',
+          height: '50%',
+        }}
+      />
+    );
     //#31C3BD
   }
 
   function handleClick() {
     setHover(false);
     setValue(playerValue(player));
-    const myNewArray = Object.assign([...gameState], {
+    const newGameValues = Object.assign([...gameState], {
       [index]: playerValue(player),
     });
-    setGameState(myNewArray);
+    setGameState(newGameValues);
     setPlayer(!player);
   }
   return (
@@ -51,13 +70,12 @@ const Square = ({ index }) => {
       onMouseEnter={(e) => setHover(true)}
       onMouseLeave={(e) => setHover(false)}
       disabled={value || gameWon || gameDraw}
-      // style={{ backgroundColor: value === 'X' ? 'blue' : value === 'O' ? 'red' : 'grey' }}
       className={`board-square ${styles.button}`}
       onClick={() => handleClick()}
     >
       {hover ? hoverSVG() : null}
-      {value === 'X' && <Xshape style={{ fill: '#31C3BD' }} />}
-      {value === 'O' && <Oshape style={{ fill: '#F2B137' }} />}
+      {value === 'X' && <Xshape style={{ fill: '#31C3BD', width: '50%', height: '50%' }} />}
+      {value === 'O' && <Oshape style={{ fill: '#F2B137', width: '50%', height: '50%' }} />}
     </button>
   );
 };
