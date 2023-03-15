@@ -4,34 +4,27 @@ import { useState, useContext, createContext, useEffect } from 'react';
 import { ReactComponent as Xshape } from './assets/X-shape.svg';
 import { ReactComponent as Oshape } from './assets/Oval-shape.svg';
 import { ReactComponent as Redo } from './assets/Redo.svg';
+import { AppContext } from './context/Context';
 import Modal from "./Components/Modal";
 import Results from './Components/Results';
 function App() {
-  const [player, setPlayer] = useState(true)
-  const [gameWon, setGameWon] = useState(false);
-  const [gameDraw, setGameDraw] = useState(false);
-  const [modalMessage, setModalMessage] = useState("")
-  const [resetBoard, setResetBoard] = useState(false)
-  const [gameState, setGameState] = useState(["", "", "", "", "", "", "", "", ""])
-  const [score, setScore] = useState({ X: 0, ties: 0, O: 0 });
-  function resetGame() {
-    setGameState(["", "", "", "", "", "", "", "", ""])
-    setResetBoard(true)
-    setPlayer(true)
-    setGameDraw(false);
-    setGameWon(false);
-    setModalMessage("");
-  }
-  const globalState = {
-    resetBoard,
+  const { resetBoard,
     setResetBoard,
     player,
     setPlayer,
     gameState,
     setGameState,
     gameWon,
-    gameDraw
-  };
+    setGameWon,
+    gameDraw,
+    setGameDraw,
+    modalMessage,
+    setModalMessage,
+    score,
+    setScore,
+    resetGame, } = useContext(AppContext);
+
+
   function changePlayer() {
     setPlayer((prev) => !prev)
   }
@@ -66,7 +59,7 @@ function App() {
 
       if (roundWon) {
         setGameWon(true)
-        setModalMessage(`${player === true ? "O" : "X"} has won the game`)
+        setModalMessage(`${player === true ? "O" : "X"}`)
         player ? setScore((state) => ({
           ...state,
           O: state.O + 1,
@@ -79,7 +72,7 @@ function App() {
       let roundDraw = !gameState.includes("");
       if (roundDraw) {
         setGameDraw(true)
-        setModalMessage(`It's a draw!`)
+        setModalMessage(`tie`)
         setScore((state) => ({
           ...state,
           ties: state.ties + 1
@@ -98,39 +91,32 @@ function App() {
 
   return (
     <div className="App">
-      <AppContext.Provider value={globalState}>
-        <header className="App-header">
-          {modalMessage && (<Modal message={modalMessage} />)}
-          <div className='top-section' style={{ marginBottom: "15px" }}>
-            <div className='logo'>
-              <Xshape style={{ marginRight: 10, fill: '#31C3BD', width: 30, height: 30 }} /><Oshape style={{ fill: '#F2B137', width: 30, height: 30, }} />
 
-            </div>
-            <div className='current-player-view'>
-              {player && <Xshape style={{ width: 15, height: 15, marginRight: 10, fill: '#31C3BD' }} />}
-              {!player && <Oshape style={{ width: 15, height: 15, marginRight: 10, fill: '#F2B137' }} />}
-              {"turn"}
-            </div>
-            <button onClick={(e) => resetGame()} className="reset-button">
-              <Redo />
-            </button>
+      <header className="App-header">
+        {modalMessage && (<Modal message={modalMessage} />)}
+        <div className='top-section' style={{ marginBottom: "15px" }}>
+          <div className='logo'>
+            <Xshape style={{ marginRight: 10, fill: '#31C3BD', width: 30, height: 30 }} /><Oshape style={{ fill: '#F2B137', width: 30, height: 30, }} />
+
           </div>
-          <Board />
-          <div className='game-results'>
-            <Results title="X" score={score.X} />
-            <Results title="ties" score={score.ties} />
-            <Results title="O" score={score.O} />
+          <div className='current-player-view'>
+            {player && <Xshape style={{ width: 15, height: 15, marginRight: 10, fill: '#31C3BD' }} />}
+            {!player && <Oshape style={{ width: 15, height: 15, marginRight: 10, fill: '#F2B137' }} />}
+            {"turn"}
           </div>
-        </header>
-      </AppContext.Provider>
+          <button onClick={(e) => resetGame()} className="reset-button">
+            <Redo />
+          </button>
+        </div>
+        <Board />
+        <div className='game-results'>
+          <Results title="X" score={score.X} />
+          <Results title="ties" score={score.ties} />
+          <Results title="O" score={score.O} />
+        </div>
+      </header>
     </div>
   );
 }
 
 export default App;
-export const AppContext = createContext();
-export function useGlobalState() {
-  const globalState = useContext(AppContext);
-
-  return globalState;
-}

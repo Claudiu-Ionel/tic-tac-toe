@@ -1,14 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import { playerValue } from './Functions/PlayerValue';
-import { useGlobalState } from '../App';
+import { AppContext } from '../context/Context';
 import { ReactComponent as Xshape } from '../assets/X-shape.svg';
 import { ReactComponent as Oshape } from '../assets/Oval-shape.svg';
 import styles from './Square.module.css';
 const Square = ({ index }) => {
   const [value, setValue] = useState('');
   const [hover, setHover] = useState(false);
-  const globalState = useGlobalState();
-  const squareRef = useRef(null);
   const {
     resetBoard,
     setResetBoard,
@@ -18,7 +16,8 @@ const Square = ({ index }) => {
     setGameState,
     gameWon,
     gameDraw,
-  } = globalState;
+  } = useContext(AppContext);
+  const squareRef = useRef(null);
 
   useEffect(() => {
     if (resetBoard === true) {

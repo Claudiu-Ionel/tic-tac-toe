@@ -1,11 +1,9 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import Square from './Square';
-import { useGlobalState } from '../App';
-import '../style/_board.scss';
+import { AppContext } from '../context/Context';
+
 const Board = () => {
-  const globalState = useGlobalState();
-  const { gameState } = globalState;
-  console.log(gameState);
+  const { gameState } = useContext(AppContext);
   return (
     <section className="board">
       {gameState.map((item, index) => {
