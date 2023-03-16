@@ -10,6 +10,7 @@ export const AppContextProvider = ({ children }) => {
   const [resetBoard, setResetBoard] = useState(false);
   const [gameState, setGameState] = useState(['', '', '', '', '', '', '', '', '']);
   const [score, setScore] = useState({ X: 0, ties: 0, O: 0 });
+  const [winningSequence, setWinningSequence] = useState([]);
   const resetGame = () => {
     setGameState(['', '', '', '', '', '', '', '', '']);
     setResetBoard(true);
@@ -17,6 +18,7 @@ export const AppContextProvider = ({ children }) => {
     setGameDraw(false);
     setGameWon(false);
     setModalMessage('');
+    setWinningSequence([]);
   };
   return (
     <AppContext.Provider
@@ -36,6 +38,8 @@ export const AppContextProvider = ({ children }) => {
         score,
         setScore,
         resetGame,
+        winningSequence,
+        setWinningSequence,
       }}
     >
       {children}

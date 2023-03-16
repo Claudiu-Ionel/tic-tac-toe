@@ -22,12 +22,9 @@ function App() {
     setModalMessage,
     score,
     setScore,
-    resetGame, } = useContext(AppContext);
+    resetGame, setWinningSequence } = useContext(AppContext);
 
 
-  function changePlayer() {
-    setPlayer((prev) => !prev)
-  }
   const winningConditions = [
     [0, 1, 2],
     [3, 4, 5],
@@ -39,10 +36,10 @@ function App() {
     [2, 4, 6]
   ];
   useEffect(() => {
-
     const handleResultValidation = () => {
       // handle the click event
       let roundWon = false
+
       for (let i = 0; i <= 7; i++) {
         const winCondition = winningConditions[i];
         let a = gameState[winCondition[0]];
@@ -52,6 +49,7 @@ function App() {
           continue;
         }
         if (a === b && b === c) {
+          setWinningSequence(winningConditions[i])
           roundWon = true;
           break
         }
@@ -85,7 +83,6 @@ function App() {
     };
     handleResultValidation()
     return () => {
-      console.log("clean up")
     }
   }, [gameState])
 

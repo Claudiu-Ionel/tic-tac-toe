@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useRef, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { playerValue } from './Functions/PlayerValue';
 import { AppContext } from '../context/Context';
 import { ReactComponent as Xshape } from '../assets/X-shape.svg';
 import { ReactComponent as Oshape } from '../assets/Oval-shape.svg';
-import styles from './Square.module.css';
+
 const Square = ({ index }) => {
   const [value, setValue] = useState('');
   const [hover, setHover] = useState(false);
@@ -16,9 +16,8 @@ const Square = ({ index }) => {
     setGameState,
     gameWon,
     gameDraw,
+    winningSequence,
   } = useContext(AppContext);
-  const squareRef = useRef(null);
-
   useEffect(() => {
     if (resetBoard === true) {
       setValue('');
@@ -28,7 +27,10 @@ const Square = ({ index }) => {
       return;
     }
   }, [resetBoard]);
-
+  function setBackgroundColor() {
+    if (value === 'X') return '#31C3BD';
+    return '#F2B137';
+  }
   function hoverSVG() {
     if (player)
       return (
@@ -65,16 +67,35 @@ const Square = ({ index }) => {
   }
   return (
     <button
-      ref={squareRef}
       onMouseEnter={(e) => setHover(true)}
       onMouseLeave={(e) => setHover(false)}
       disabled={value || gameWon || gameDraw}
-      className={`board-square ${styles.button}`}
+      className={`board-square`}
+      style={{
+        backgroundColor: winningSequence.includes(index) ? setBackgroundColor() : '#1F3641',
+      }}
       onClick={() => handleClick()}
     >
       {hover ? hoverSVG() : null}
-      {value === 'X' && <Xshape style={{ fill: '#31C3BD', width: '50%', height: '50%' }} />}
-      {value === 'O' && <Oshape style={{ fill: '#F2B137', width: '50%', height: '50%' }} />}
+      {value === 'X' && (
+        <Xshape
+          style={{
+            fill: winningSequence.includes(index) ? '#1F3641' : '#31C3BD',
+            width: '50%',
+            height: '50%',
+          }}
+        />
+      )}
+
+      {value === 'O' && (
+        <Oshape
+          style={{
+            fill: winningSequence.includes(index) ? '#1F3641' : '#F2B137',
+            width: '50%',
+            height: '50%',
+          }}
+        />
+      )}
     </button>
   );
 };

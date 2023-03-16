@@ -67,7 +67,7 @@ padding: 15px 0px;
   }
   button {
     text-transform: uppercase;
-    padding: 12px 15px;
+    padding: 15px;
     border:none;
     border-radius: 10px;
   }
@@ -97,7 +97,7 @@ padding: 15px 0px;
 
 .board-square {
   background-color: $background-color-secondary;
-  width: 33%;
+  width: 140px;
   height: auto;
   border-radius: 15px;
   border: none;
@@ -110,7 +110,9 @@ padding: 15px 0px;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-
+  }
+  &.win-sequence {
+    background-color: $primary-color;
   }
 }
 .top-section{
