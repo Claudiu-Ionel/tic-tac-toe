@@ -104,7 +104,7 @@ function App() {
             {!player && <Oshape style={{ width: 15, height: 15, marginRight: 10, fill: '#F2B137' }} />}
             {"turn"}
           </div>
-          <button onClick={(e) => resetGame()} className="reset-button">
+          <button onClick={(e) => setModalMessage("restart")} className="reset-button">
             <Redo />
           </button>
         </div>

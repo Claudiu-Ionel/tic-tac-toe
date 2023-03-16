@@ -56,6 +56,15 @@ padding: 15px 0px;
     grid-template-rows: repeat(3, 1fr);
     place-items: center;
   }
+  &.grid-2-rows {
+    @extend .grid-3-rows;
+    grid-template-rows: repeat(2, 1fr);
+    
+    .game-result-win {
+      justify-self: center;
+      align-self: flex-end;
+    }
+  }
   button {
     text-transform: uppercase;
     padding: 12px 15px;
