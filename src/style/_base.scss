@@ -8,3 +8,6 @@ $background-color-primary: #1A2A33;
 $background-color-secondary: #1F3641;
 $font-family: 'Outfit',
 sans-serif;
+@mixin box-shadow($color, $bottom) {
+    box-shadow: 0px $bottom 0px 0px rgba($color, .7);
+  }

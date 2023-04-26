@@ -18,6 +18,7 @@ const Square = ({ index }) => {
     gameDraw,
     winningSequence,
   } = useContext(AppContext);
+  
   useEffect(() => {
     if (resetBoard === true) {
       setValue('');

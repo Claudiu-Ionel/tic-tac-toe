@@ -7,6 +7,7 @@ import { ReactComponent as Redo } from '../assets/Redo.svg';
 import { AppContext } from '../context/Context';
 import Modal from './Modal';
 import Results from './Results';
+import Logo from './Logo';
 
 const Game = () => {
   const {
@@ -84,10 +85,7 @@ const Game = () => {
     <>
       {modalMessage && <Modal message={modalMessage} />}
       <div className="top-section" style={{ marginBottom: '15px' }}>
-        <div className="logo">
-          <Xshape style={{ marginRight: 10, fill: '#31C3BD', width: 30, height: 30 }} />
-          <Oshape style={{ fill: '#F2B137', width: 30, height: 30 }} />
-        </div>
+        <Logo></Logo>
         <div className="current-player-view">
           {player && <Xshape style={{ width: 20, height: 20, marginRight: 10, fill: '#A8BFC9' }} />}
           {!player && (
