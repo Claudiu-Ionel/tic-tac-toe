@@ -46,7 +46,7 @@ const PlayerStartSwitch = () => {
         </label>
        </div>
       </fieldset>
-      <h6 className='footer'>remember: x goes first</h6>
+      <p className='footer'>remember: x goes first</p>
     </div>
   )
 }

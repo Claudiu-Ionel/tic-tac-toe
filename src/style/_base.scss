@@ -6,8 +6,28 @@ $tertiary-color:#A8BFC9;
 $tertiary-color-hover:#DBE8ED;
 $background-color-primary: #1A2A33;
 $background-color-secondary: #1F3641;
+$shadow-color-dark: #171f2c;
 $font-family: 'Outfit',
 sans-serif;
 @mixin box-shadow($color, $bottom) {
     box-shadow: 0px $bottom 0px 0px rgba($color, .7);
   }
+
+
+@mixin responsive($breakpoint) {
+  @if $breakpoint ==desktop {
+    @media only screen and (max-width: 1024px) {
+      @content
+    }
+  };
+  @if $breakpoint ==ipad {
+    @media only screen and (max-width: 768px) {
+      @content
+    }
+  };
+  @if $breakpoint ==phone {
+    @media only screen and (max-width: 400px) {
+      @content
+    }
+  };
+}

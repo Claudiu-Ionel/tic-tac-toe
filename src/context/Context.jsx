@@ -4,6 +4,7 @@ export const AppContext = createContext({});
 
 export const AppContextProvider = ({ children }) => {
   const [playerStart, setPlayerStart] = useState('X')
+  const [gameStart, setGameStart] = useState(false)
   const [player, setPlayer] = useState(true);
   const [gameWon, setGameWon] = useState(false);
   const [gameDraw, setGameDraw] = useState(false);
@@ -42,7 +43,9 @@ export const AppContextProvider = ({ children }) => {
         winningSequence,
         setWinningSequence,
         playerStart, 
-        setPlayerStart
+        setPlayerStart,
+        gameStart, 
+        setGameStart
       }}
     >
       {children}

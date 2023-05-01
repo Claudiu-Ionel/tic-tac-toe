@@ -12,7 +12,7 @@ const Modal = ({ message }) => {
         <section className="modal-content grid-3-rows">
           <div className="game-result-title">text</div>
           <div className="game-result-win">
-            <Xshape style={{ fill: '#31C3BD', width: 64, height: 64 }} />
+            <Xshape style={{ fill: '#31C3BD', maxWidth: 60, maxHeight: 60 }} />
             <h1 style={{ color: '#31C3BD', textTransform: 'uppercase' }}>Takes the round</h1>
           </div>
           <div className="game-result-buttons">

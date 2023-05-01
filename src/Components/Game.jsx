@@ -87,7 +87,7 @@ const Game = () => {
       <div className="top-section" style={{ marginBottom: '15px' }}>
         <Logo></Logo>
         <div className="current-player-view">
-          {player && <Xshape style={{ width: 20, height: 20, marginRight: 10, fill: '#A8BFC9' }} />}
+          {player && <Xshape style={{ width: "20%", height: 20, marginRight: 10, fill: '#A8BFC9' }} />}
           {!player && (
             <Oshape style={{ width: 20, height: 20, marginRight: 10, fill: '#A8BFC9' }} />
           )}

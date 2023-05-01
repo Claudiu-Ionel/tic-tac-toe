@@ -7,6 +7,10 @@
   box-sizing: border-box;
 }
 
+button {
+  cursor: pointer;
+}
+
 .App {
   text-align: center;
   width: 100vw;
@@ -27,6 +31,9 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+  @include responsive("phone") {
+  width: 80%
+  }
 }
 
 .modal {
@@ -48,7 +55,7 @@
   width: 100%;
   min-height: 280px;
   background-color: $background-color-secondary;
-padding: 15px 0px;
+  padding: 15px 0px;
   &.grid-3-rows {
     display: grid;
     width: 100%;
@@ -67,7 +74,7 @@ padding: 15px 0px;
   }
   button {
     text-transform: uppercase;
-    padding: 15px;
+    padding: 12px 15px;
     border:none;
     border-radius: 10px;
   }
@@ -77,11 +84,11 @@ padding: 15px 0px;
     gap: 20px;
     .quit-button {
       background-color: $tertiary-color;
-      box-shadow: inset 0px -4px 0px #6B8997;
+      @include box-shadow($tertiary-color, 4px);
     }
     .next-round-button {
       background-color: $secondary-color;
-      box-shadow: inset 0px -4px 0px $primary-color;
+      @include box-shadow($secondary-color, 4px);
     }
   }
   
@@ -93,15 +100,21 @@ padding: 15px 0px;
   grid-template-columns: repeat(3, 140px);
   grid-template-rows: repeat(3, 140px);
   gap: 15px;
+
+  @include responsive("phone") {
+    grid-template-columns: repeat(3, 80px);
+    grid-template-rows: repeat(3, 80px);
+    gap: 10px;
+    }
 }
 
 .board-square {
   background-color: $background-color-secondary;
-  width: 140px;
+  width: 100%;
   height: auto;
   border-radius: 15px;
   border: none;
-  box-shadow: 0px 8px 0px 0px rgba(0, 0, 0, 0.1);
+  @include box-shadow($shadow-color-dark, 8px);
   position: relative;
   cursor: pointer;
   &::after {
@@ -118,7 +131,9 @@ padding: 15px 0px;
 .top-section{
   display: grid;
   grid-template-columns: repeat(3, 150px);
-
+   @include responsive(phone) {
+    grid-template-columns: repeat(3, 80px);
+   }
   .logo {
       width: 60px;
       height: 50px;
@@ -139,6 +154,10 @@ padding: 15px 0px;
       display: flex;
       justify-content: center;
       align-items: center;
+      @include responsive(phone) {
+        width: 80px;
+        font-size: 0.8rem;
+      }
     }
     .reset-button {
       background-color: $tertiary-color;
@@ -160,6 +179,9 @@ padding: 15px 0px;
   margin-top: 20px;
   gap: 5px;
   place-items: center;
+  @include responsive(phone) {
+    gap: 10px;
+  }
   .results {
     font-size: 1.2rem;
     padding: 10px;
@@ -179,6 +201,9 @@ padding: 15px 0px;
     }
     &:nth-child(3) {
       background-color: $secondary-color;
+    }
+    @include responsive(phone) {
+      width: 80px;
     }
   }
   
