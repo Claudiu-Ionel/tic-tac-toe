@@ -20,6 +20,7 @@ const Game = () => {
     score,
     setScore,
     setWinningSequence,
+    CPU_choice
   } = useContext(AppContext);
 
   const winningConditions = [
@@ -103,6 +104,7 @@ const Game = () => {
         <Results title="ties" score={score.ties} />
         <Results title="O" score={score.O} />
       </div>
+      <button onClick={() => CPU_choice()}>CPU</button>
     </>
   );
 };

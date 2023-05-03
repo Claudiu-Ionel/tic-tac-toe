@@ -5,7 +5,7 @@ import { ReactComponent as Xshape } from '../assets/X-shape.svg';
 import { ReactComponent as Oshape } from '../assets/Oval-shape.svg';
 
 const Square = ({ index }) => {
-  const [value, setValue] = useState('');
+  
   const [hover, setHover] = useState(false);
   const {
     resetBoard,
@@ -19,15 +19,23 @@ const Square = ({ index }) => {
     winningSequence,
   } = useContext(AppContext);
   
+  const [value, setValue] = useState(gameState[index]);
+
+
   useEffect(() => {
     if (resetBoard === true) {
-      setValue('');
+      setValue(gameState[index]);
       setHover(false);
       setResetBoard(false);
     } else {
       return;
     }
   }, [resetBoard]);
+
+  useEffect(() => {
+    setValue(gameState[index])
+  }, [gameState])
+  
   function setBackgroundColor() {
     if (value === 'X') return '#31C3BD';
     return '#F2B137';
