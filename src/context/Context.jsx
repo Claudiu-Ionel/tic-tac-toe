@@ -1,4 +1,4 @@
-import { createContext, useState } from 'react';
+import { createContext, useState, useEffect, useRef } from 'react';
 import { playerValue } from '../Components/Functions/PlayerValue';
 export const AppContext = createContext({});
 
@@ -10,13 +10,110 @@ export const AppContextProvider = ({ children }) => {
   const [gameDraw, setGameDraw] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
   const [resetBoard, setResetBoard] = useState(false);
-  const [gameState, setGameState] = useState(['', '', 'X', '', '', '', '', '', '']);
+  const [gameState, setGameState] = useState(['', '', '', '', '', '', '', '', '']);
   const [score, setScore] = useState({ X: 0, ties: 0, O: 0 });
   const [winningSequence, setWinningSequence] = useState([]);
+  const [cpuMode, setCpuMode] = useState(false);
+  const [cpuTurn, setCpuTurn] = useState(false);
+  const didMountRef = useRef(false);
+  const winningConditions = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6],
+  ];
+  
+  function enableCpuMode () {
+    setGameStart(true)
+    setCpuMode(true)
+    if (playerStart === "O") {
+      setCpuTurn(true)
+    }
+  }
+  
+  
+  
+  const handleResultValidation = () => {
+    console.log("ran on first render");
+    // handle the click event
+    let roundWon = false;
+    let winningValue = ""; 
+    for (let i = 0; i <= 7; i++) {
+      const winCondition = winningConditions[i];
+      let a = gameState[winCondition[0]];
+      let b = gameState[winCondition[1]];
+      let c = gameState[winCondition[2]];
+      if (a === '' || b === '' || c === '') {
+        continue;
+      }
+      if (a === b && b === c) {
+        setWinningSequence(winningConditions[i]);
+        winningValue = a;
+        roundWon = true;
+        break;
+      }
+    }
 
-  function CPU_choice() {
+    if (roundWon) {
+      setGameWon(true);
+      setModalMessage(`${winningValue === 'O'? 'O' : 'X'}`);
+      winningValue === 'O' ? setScore((state) => ({
+            ...state,
+            O: state.O + 1,
+          }))
+        : setScore((state) => ({
+            ...state,
+            X: state.X + 1,
+          }));
+      return;
+    }
+    let roundDraw = !gameState.includes('');
+    if (roundDraw) {
+      setGameDraw(true);
+      setModalMessage(`tie`);
+      setScore((state) => ({
+        ...state,
+        ties: state.ties + 1,
+      }));
+      return;
+    }
+  
+    if (cpuMode) {
+      setCpuTurn(true)
+    }
+  };
+ 
+  // function useDidUpdateEffect(fn, inputs) {
+  //   const didMountRef = useRef(false);
+  
+  //   useEffect(() => {
+  //     if (didMountRef.current) { 
+  //       return fn();
+  //     }
+  //     didMountRef.current = true;
+  //   }, inputs);
+  // }
+  
+    useEffect(() => {
+      if (didMountRef.current) {
+        handleResultValidation()
+      }
+      didMountRef.current = true
+    }, gameState)
 
-    console.log("before:", gameState);
+    useEffect(() => {
+      if (cpuTurn === true) {
+        CPU_choice()
+      }
+    }, [cpuTurn])
+
+ const CPU_choice = () => {
+
+  setTimeout(() => {
   
     const freeSpots = [];
     for (let i = 0; i < gameState.length; i++) {
@@ -25,15 +122,15 @@ export const AppContextProvider = ({ children }) => {
       }
     }
     const randomIndex = Math.floor(Math.random() * freeSpots.length);
-    console.log(freeSpots);
-    console.log(randomIndex);
 
     const newGameValues = Object.assign([...gameState], {
         [freeSpots[randomIndex]]: playerValue(player),
       });
-      setGameState(newGameValues);
-  
-    console.log("after:", gameState);
+    setGameState(newGameValues);
+    setPlayer(!player)
+    setCpuTurn(false)
+  }, 500)
+      
   }
 
   const resetGame = () => {
@@ -69,7 +166,9 @@ export const AppContextProvider = ({ children }) => {
         setPlayerStart,
         gameStart, 
         setGameStart,
-        CPU_choice
+        CPU_choice,
+        handleResultValidation,
+        enableCpuMode,
       }}
     >
       {children}

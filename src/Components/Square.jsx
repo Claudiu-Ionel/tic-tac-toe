@@ -17,6 +17,7 @@ const Square = ({ index }) => {
     gameWon,
     gameDraw,
     winningSequence,
+    cpuTurn
   } = useContext(AppContext);
   
   const [value, setValue] = useState(gameState[index]);
@@ -41,6 +42,7 @@ const Square = ({ index }) => {
     return '#F2B137';
   }
   function hoverSVG() {
+    if (cpuTurn) return
     if (player)
       return (
         <Xshape
@@ -66,19 +68,22 @@ const Square = ({ index }) => {
   }
 
   function handleClick() {
-    setHover(false);
+    
+    if (!cpuTurn) {
+      setHover(false);
     setValue(playerValue(player));
     const newGameValues = Object.assign([...gameState], {
       [index]: playerValue(player),
     });
     setGameState(newGameValues);
     setPlayer(!player);
+    }
   }
   return (
     <button
       onMouseEnter={(e) => setHover(true)}
       onMouseLeave={(e) => setHover(false)}
-      disabled={value || gameWon || gameDraw}
+      disabled={value || gameWon || gameDraw || cpuTurn}
       className={`board-square`}
       style={{
         backgroundColor: winningSequence.includes(index) ? setBackgroundColor() : '#1F3641',

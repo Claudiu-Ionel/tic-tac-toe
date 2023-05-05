@@ -31,9 +31,9 @@ const PlayerStartSwitch = () => {
        <input 
         type="radio" 
         id="radio-0" 
-        name="0" 
-        value="0" 
-        checked={playerStart === "0"}
+        name="O" 
+        value="O" 
+        checked={playerStart === "O"}
         onChange={(e) => setPlayerStart(e.target.value)}
         />
         <label id="label-0" htmlFor="radio-0">
@@ -41,7 +41,7 @@ const PlayerStartSwitch = () => {
           cursor: "pointer",
           width: 25, 
           height: 25, 
-          fill: playerStart === "0" ? '#1F3641' : "#A8BFC9"
+          fill: playerStart === "O" ? '#1F3641' : "#A8BFC9"
          }} />}
         </label>
        </div>
