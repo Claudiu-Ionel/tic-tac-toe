@@ -37,7 +37,7 @@ const Game = () => {
     const handleResultValidation = () => {
       // handle the click event
       let roundWon = false;
-
+      let winningValue = ""; 
       for (let i = 0; i <= 7; i++) {
         const winCondition = winningConditions[i];
         let a = gameState[winCondition[0]];
@@ -48,6 +48,7 @@ const Game = () => {
         }
         if (a === b && b === c) {
           setWinningSequence(winningConditions[i]);
+          winningValue = a;
           roundWon = true;
           break;
         }
@@ -55,7 +56,7 @@ const Game = () => {
 
       if (roundWon) {
         setGameWon(true);
-        setModalMessage(`${player === true ? 'O' : 'X'}`);
+        setModalMessage(`${winningValue === 'O'? 'O' : 'X'}`);
         player
           ? setScore((state) => ({
               ...state,
