@@ -42,7 +42,6 @@ const Square = ({ index }) => {
     return '#F2B137';
   }
   function hoverSVG() {
-    if (cpuTurn) return
     if (player)
       return (
         <Xshape
@@ -90,7 +89,7 @@ const Square = ({ index }) => {
       }}
       onClick={() => handleClick()}
     >
-      {hover ? hoverSVG() : null}
+      {hover ? hoverSVG() : false}
       {value === 'X' && (
         <Xshape
           style={{

@@ -15,7 +15,6 @@ const Game = () => {
     modalMessage,
     setModalMessage,
     score,
-    CPU_choice
   } = useContext(AppContext);
 
 
@@ -41,7 +40,6 @@ const Game = () => {
         <Results title="ties" score={score.ties} />
         <Results title="O" score={score.O} />
       </div>
-      <button onClick={() => CPU_choice()}>CPU</button>
     </>
   );
 };

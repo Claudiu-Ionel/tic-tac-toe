@@ -4,9 +4,10 @@ export const AppContext = createContext({});
 
 export const AppContextProvider = ({ children }) => {
   const [playerStart, setPlayerStart] = useState('X')
-  const [gameStart, setGameStart] = useState(false)
+  const [gameView, setGameView] = useState(false)
   const [player, setPlayer] = useState(true);
   const [gameWon, setGameWon] = useState(false);
+  const [gameStart, setGameStart] = useState(false);
   const [gameDraw, setGameDraw] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
   const [resetBoard, setResetBoard] = useState(false);
@@ -15,6 +16,7 @@ export const AppContextProvider = ({ children }) => {
   const [winningSequence, setWinningSequence] = useState([]);
   const [cpuMode, setCpuMode] = useState(false);
   const [cpuTurn, setCpuTurn] = useState(false);
+  const [calculations, setCalculations] = useState(false)
   const didMountRef = useRef(false);
   const winningConditions = [
     [0, 1, 2],
@@ -28,8 +30,9 @@ export const AppContextProvider = ({ children }) => {
   ];
   
   function enableCpuMode () {
-    setGameStart(true)
+    setGameView(true)
     setCpuMode(true)
+    // setGameStart(true)
     if (playerStart === "O") {
       setCpuTurn(true)
     }
@@ -81,10 +84,9 @@ export const AppContextProvider = ({ children }) => {
       }));
       return;
     }
-  
-    if (cpuMode) {
-      setCpuTurn(true)
-    }
+     if (cpuMode) {
+        setCpuTurn(true)
+     }
   };
  
   // function useDidUpdateEffect(fn, inputs) {
@@ -111,6 +113,10 @@ export const AppContextProvider = ({ children }) => {
       }
     }, [cpuTurn])
 
+
+
+
+
  const CPU_choice = () => {
 
   setTimeout(() => {
@@ -132,7 +138,13 @@ export const AppContextProvider = ({ children }) => {
   }, 500)
       
   }
-
+  // function CpuTurnFunc() {
+  //   console.log("playerStart", playerStart);
+  //   if (playerStart === "X") {
+  //     setCpuTurn(false);
+  //   }
+  //   setCpuTurn(true)
+  // }
   const resetGame = () => {
     setGameState(['', '', '', '', '', '', '', '', '']);
     setResetBoard(true);
@@ -141,6 +153,14 @@ export const AppContextProvider = ({ children }) => {
     setGameWon(false);
     setModalMessage('');
     setWinningSequence([]);
+    if (cpuMode && playerStart === "X") {
+      didMountRef.current = false
+      return setCpuTurn(false)
+    } 
+    if (cpuMode && playerStart === "O"){
+      return setCpuTurn(true)
+    }
+    // if (cpuMode) return CpuTurnFunc()
   };
   return (
     <AppContext.Provider
@@ -164,8 +184,8 @@ export const AppContextProvider = ({ children }) => {
         setWinningSequence,
         playerStart, 
         setPlayerStart,
-        gameStart, 
-        setGameStart,
+        gameView, 
+        setGameView,
         CPU_choice,
         handleResultValidation,
         enableCpuMode,
