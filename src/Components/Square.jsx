@@ -37,6 +37,15 @@ const Square = ({ index }) => {
     setValue(gameState[index])
   }, [gameState])
   
+
+  // useEffect(() => {
+  //   if (cpuTurn) {
+  //     setHover(false)
+  //   }
+  //   else {
+  //     setHover(true)
+  //   }
+  // }, [cpuTurn])
   function setBackgroundColor() {
     if (value === 'X') return '#31C3BD';
     return '#F2B137';
@@ -77,10 +86,11 @@ const Square = ({ index }) => {
     setGameState(newGameValues);
     setPlayer(!player);
     }
+    
   }
   return (
     <button
-      onMouseEnter={(e) => setHover(true)}
+      onMouseEnter={(e) => value ? setHover(false) : setHover(true)}
       onMouseLeave={(e) => setHover(false)}
       disabled={value || gameWon || gameDraw || cpuTurn}
       className={`board-square`}
@@ -89,7 +99,7 @@ const Square = ({ index }) => {
       }}
       onClick={() => handleClick()}
     >
-      {hover ? hoverSVG() : false}
+      {hover && !value ? hoverSVG() : false}
       {value === 'X' && (
         <Xshape
           style={{

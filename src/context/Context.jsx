@@ -197,7 +197,7 @@ export const AppContextProvider = ({ children }) => {
     for (let i = 0; i < board.length; i++) {
       if (board[i] === '') {
         board[i] = computerSymbol;
-        const score = minimax(board, 3, false, playerSymbol, computerSymbol); // set maximum depth to 5
+        const score = minimax(board, 5, false, playerSymbol, computerSymbol); // set maximum depth to 5
         board[i] = '';
   
         if (score > bestScore) {
