@@ -7,7 +7,6 @@ export const AppContextProvider = ({ children }) => {
   const [gameView, setGameView] = useState(false)
   const [player, setPlayer] = useState(true);
   const [gameWon, setGameWon] = useState(false);
-  const [gameStart, setGameStart] = useState(false);
   const [gameDraw, setGameDraw] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
   const [resetBoard, setResetBoard] = useState(false);
@@ -16,7 +15,6 @@ export const AppContextProvider = ({ children }) => {
   const [winningSequence, setWinningSequence] = useState([]);
   const [cpuMode, setCpuMode] = useState(false);
   const [cpuTurn, setCpuTurn] = useState(false);
-  const [calculations, setCalculations] = useState(false)
   const didMountRef = useRef(false);
   const winningConditions = [
     [0, 1, 2],
@@ -117,27 +115,7 @@ export const AppContextProvider = ({ children }) => {
 
 
 
- const CPU_choice = () => {
-
-  setTimeout(() => {
-  
-    const freeSpots = [];
-    for (let i = 0; i < gameState.length; i++) {
-      if (gameState[i].length === 0) {
-        freeSpots.push(i);
-      }
-    }
-    const randomIndex = Math.floor(Math.random() * freeSpots.length);
-
-    const newGameValues = Object.assign([...gameState], {
-        [freeSpots[randomIndex]]: playerValue(player),
-      });
-    setGameState(newGameValues);
-    setPlayer(!player)
-    setCpuTurn(false)
-  }, 500)
-      
-  }
+ 
   // function CpuTurnFunc() {
   //   console.log("playerStart", playerStart);
   //   if (playerStart === "X") {
@@ -145,6 +123,123 @@ export const AppContextProvider = ({ children }) => {
   //   }
   //   setCpuTurn(true)
   // }
+
+
+
+  function minimax(board, depth, isMaximizingPlayer, playerSymbol, computerSymbol) {
+    // base case: if the game is over or the maximum depth has been reached, evaluate the score
+    const result = evaluate(board, playerSymbol, computerSymbol);
+    if (result !== null || depth === 0) {
+      return result;
+    }
+  
+    if (isMaximizingPlayer) {
+      let bestScore = -Infinity;
+  
+      // loop through all possible moves and choose the one with the highest score
+      for (let i = 0; i < board.length; i++) {
+        if (board[i] === '') {
+          board[i] = computerSymbol;
+          const score = minimax(board, depth - 1, false, playerSymbol, computerSymbol);
+          board[i] = '';
+          bestScore = Math.max(score, bestScore);
+        }
+      }
+  
+      return bestScore;
+    } else {
+      let bestScore = Infinity;
+  
+      // loop through all possible moves and choose the one with the lowest score
+      for (let i = 0; i < board.length; i++) {
+        if (board[i] === '') {
+          board[i] = playerSymbol;
+          const score = minimax(board, depth - 1, true, playerSymbol, computerSymbol);
+          board[i] = '';
+          bestScore = Math.min(score, bestScore);
+        }
+      }
+  
+      return bestScore;
+    }
+  }
+  
+  function evaluate(board, playerSymbol, computerSymbol) {
+    // check for win/lose/draw
+    const winningPositions = [
+      [0, 1, 2], [3, 4, 5], [6, 7, 8], // rows
+      [0, 3, 6], [1, 4, 7], [2, 5, 8], // columns
+      [0, 4, 8], [2, 4, 6] // diagonals
+    ];
+  
+    for (let i = 0; i < winningPositions.length; i++) {
+      const [a, b, c] = winningPositions[i];
+      if (board[a] === playerSymbol && board[b] === playerSymbol && board[c] === playerSymbol) {
+        return -10;
+      } else if (board[a] === computerSymbol && board[b] === computerSymbol && board[c] === computerSymbol) {
+        return 10;
+      }
+    }
+  
+    if (board.filter(value => value === '').length === 0) {
+      return 0;
+    }
+  
+    // return null if the game is not over
+    return null;
+  }
+  
+  function computerMove(board, playerSymbol, computerSymbol) {
+    let bestScore = -Infinity;
+    let bestMove = null;
+  
+    // loop through all possible moves and choose the one with the highest score
+    for (let i = 0; i < board.length; i++) {
+      if (board[i] === '') {
+        board[i] = computerSymbol;
+        const score = minimax(board, 3, false, playerSymbol, computerSymbol); // set maximum depth to 5
+        board[i] = '';
+  
+        if (score > bestScore) {
+          bestScore = score;
+          bestMove = i;
+        }
+      }
+    }
+  
+    return bestMove;
+  }
+
+
+  const CPU_choice = () => {
+
+    setTimeout(() => {
+    const computerSymbol = playerStart === "X" ? "O" : "X";
+    const cpuChoice = computerMove(gameState, playerStart, computerSymbol)
+      // const freeSpots = [];
+      // for (let i = 0; i < gameState.length; i++) {
+      //   if (gameState[i].length === 0) {
+      //     freeSpots.push(i);
+      //   }
+      // }
+      // const randomIndex = Math.floor(Math.random() * freeSpots.length);
+  
+      // const newGameValues = Object.assign([...gameState], {
+      //     [freeSpots[randomIndex]]: playerValue(player),
+      //   });
+      const newGameValues = Object.assign([...gameState], {
+          [cpuChoice]: playerValue(player),
+        });
+      setGameState(newGameValues);
+      setPlayer(!player)
+      setCpuTurn(false)
+    }, 500)
+        
+    }
+
+
+
+
   const resetGame = () => {
     setGameState(['', '', '', '', '', '', '', '', '']);
     setResetBoard(true);
@@ -160,7 +255,6 @@ export const AppContextProvider = ({ children }) => {
     if (cpuMode && playerStart === "O"){
       return setCpuTurn(true)
     }
-    // if (cpuMode) return CpuTurnFunc()
   };
   return (
     <AppContext.Provider
