@@ -46,6 +46,7 @@ const Square = ({ index }) => {
   //     setHover(true)
   //   }
   // }, [cpuTurn])
+  
   function setBackgroundColor() {
     if (value === 'X') return '#31C3BD';
     return '#F2B137';
