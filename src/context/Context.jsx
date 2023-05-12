@@ -15,6 +15,7 @@ export const AppContextProvider = ({ children }) => {
   const [winningSequence, setWinningSequence] = useState([]);
   const [cpuMode, setCpuMode] = useState(false);
   const [cpuTurn, setCpuTurn] = useState(false);
+  const [vsPlayerMode, setVsPlayerMode] = useState(false)
   const didMountRef = useRef(false);
   const winningConditions = [
     [0, 1, 2],
@@ -283,6 +284,7 @@ export const AppContextProvider = ({ children }) => {
         CPU_choice,
         handleResultValidation,
         enableCpuMode,
+        vsPlayerMode, setVsPlayerMode
       }}
     >
       {children}

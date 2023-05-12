@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Board from './Board';
 import { useContext} from 'react';
 import { ReactComponent as Xshape } from '../assets/X-shape.svg';
@@ -9,12 +9,15 @@ import Modal from './Modal';
 import Results from './Results';
 import Logo from './Logo';
 
+
+
 const Game = () => {
   const {
     player,
     modalMessage,
     setModalMessage,
     score,
+    vsPlayerMode,
   } = useContext(AppContext);
 
 
