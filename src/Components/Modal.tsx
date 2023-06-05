@@ -2,13 +2,18 @@ import React, { useContext } from 'react';
 import { ReactComponent as Xshape } from '../assets/X-shape.svg';
 import { ReactComponent as Oshape } from '../assets/Oval-shape.svg';
 import { AppContext } from '../context/Context';
-const Modal = ({ message }) => {
+
+
+type ModalProps = {
+  message: "X" | "O" | "tie" | "restart" | ""
+}
+const Modal = ({ message } :ModalProps) => {
   const { resetGame, setModalMessage } = useContext(AppContext);
   const open = message ? true : false;
   // X has won
   if (message === 'X')
     return (
-      <div className="modal" open={open}>
+      <dialog className="modal" open={open}>
         <section className="modal-content grid-3-rows">
           <div className="game-result-title">text</div>
           <div className="game-result-win">
@@ -24,12 +29,12 @@ const Modal = ({ message }) => {
             </button>
           </div>
         </section>
-      </div>
+      </dialog>
     );
   // O has won
   if (message === 'O')
     return (
-      <div className="modal" open={open}>
+      <dialog className="modal" open={open}>
         <div className="modal-content">
           <section className="modal-content grid-3-rows">
             <div className="game-result-title">text</div>
@@ -47,13 +52,13 @@ const Modal = ({ message }) => {
             </div>
           </section>
         </div>
-      </div>
+      </dialog>
     );
 
   //Tie
   if (message === 'tie')
     return (
-      <div className="modal" open={open}>
+      <dialog className="modal" open={open}>
         <div className="modal-content">
           <section className="modal-content grid-2-rows">
             {/* <div className="game-result-title"></div> */}
@@ -70,11 +75,11 @@ const Modal = ({ message }) => {
             </div>
           </section>
         </div>
-      </div>
+      </dialog>
     );
   if (message === 'restart')
     return (
-      <div className="modal" open={open}>
+      <dialog className="modal" open={open}>
         <div className="modal-content">
           <section className="modal-content grid-2-rows">
             {/* <div className="game-result-title"></div> */}
@@ -91,8 +96,9 @@ const Modal = ({ message }) => {
             </div>
           </section>
         </div>
-      </div>
+      </dialog>
     );
+    return <div></div>
 };
 
 export default Modal;

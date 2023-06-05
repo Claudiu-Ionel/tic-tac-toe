@@ -1,0 +1,91 @@
+@use "../../style/base" as *;
+
+.gameMenu-wrapper {
+    // min-width: 450px;
+    .player-start-switch-wrapper {
+        background-color: $background-color-secondary;
+        padding: 40px 20px;
+        border-radius: 8px;
+        @include box-shadow($shadow-color-dark, 8px);
+    
+        .title, .footer {
+            text-transform: uppercase;
+            color: $tertiary-color-hover;
+            letter-spacing: 1px;
+        }
+        .footer {
+            font-size: 15px;
+            font-weight: 400;
+            color: rgba($color: $tertiary-color, $alpha: 0.3)
+        }
+        fieldset {
+            position: relative;
+            border-radius: 8px;
+            display: flex;
+            gap: 2px;
+            background-color: $background-color-primary;
+            border: none;
+            box-shadow: none;
+            margin: 20px 0px;
+            padding: 10px;
+            .radio-wrapper {
+                position: relative;
+                width: 50%;
+                height: 50px;
+                input[type="radio"] {
+                    position:relative;
+                    cursor: pointer;
+                    border-radius: 8px;
+                    appearance: none;
+                    width: 100%;
+                    height: 100%;
+                    background-color: $background-color-primary; 
+                    &:checked {
+                        background-color: $tertiary-color-hover;
+                    }
+                }
+                label {
+                    position: absolute;
+                    top: 55%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                }
+            }
+            
+        }
+    }
+
+    .gameMenuButtons-wrapper{
+        button {
+            width: 100%;
+            padding: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            border-radius: 8px;
+            border: none;
+            &.new-game-cpu {
+                background-color: $secondary-color;
+                @include box-shadow($secondary-color, 6px);
+                border: none;
+                margin-bottom: 20px;
+                border-radius: 8px;
+                &:hover {
+                    background-color: $secondary-color-hover;
+                }
+            }
+            &.new-game-player {
+                background-color: $primary-color;
+                @include box-shadow($primary-color, 6px);
+                border: none;
+                margin-bottom: 20px;
+                
+                &:hover {
+                    background-color: $primary-color-hover;
+                }
+            }
+        }
+    }
+
+
+}

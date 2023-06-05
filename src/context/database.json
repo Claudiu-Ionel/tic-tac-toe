@@ -1,0 +1,18 @@
+{
+  "gameRooms" : {
+    "testRoom": {
+        "creator": "testPlayer",
+        "gameState": ["", "", "", "", "", "", "", "", ""],
+        "players": ["", ""],
+        "roomID": "9125sszxY",
+        "status": "open"
+    }
+  },
+  "users":{
+    "testPlayer": {
+        "userName": "dingle",
+        "status" : "online",
+        "roomsCreated": 1
+    }
+  }
+} 

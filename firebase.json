@@ -1,16 +1,11 @@
 {
   "hosting": {
+    "site": "tic-tac-toe-client-5f8ae",
     "public": "build",
     "ignore": [
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
-    ],
-    "rewrites": [
-      {
-        "source": "**",
-        "destination": "/index.html"
-      }
     ]
   }
 }

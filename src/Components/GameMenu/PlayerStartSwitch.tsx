@@ -1,7 +1,8 @@
-import { useContext } from 'react'
+import React, { useContext } from 'react'
 import { AppContext } from '../../context/Context';
 import { ReactComponent as Xshape } from '../../assets/X-shape.svg';
 import { ReactComponent as Oshape } from '../../assets/Oval-shape.svg';
+
 const PlayerStartSwitch = () => {
   const {playerStart, setPlayerStart} = useContext(AppContext)
   return (

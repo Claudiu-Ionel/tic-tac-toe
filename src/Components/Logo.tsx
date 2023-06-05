@@ -1,6 +1,7 @@
-import React from 'react'
+
 import { ReactComponent as Xshape } from '../assets/X-shape.svg';
 import { ReactComponent as Oshape } from '../assets/Oval-shape.svg';
+
 const Logo = () => {
   return (
     <div className="logo">

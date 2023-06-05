@@ -3,10 +3,12 @@ import { playerValue } from './Functions/PlayerValue';
 import { AppContext } from '../context/Context';
 import { ReactComponent as Xshape } from '../assets/X-shape.svg';
 import { ReactComponent as Oshape } from '../assets/Oval-shape.svg';
+import { getDatabase, ref, set } from "firebase/database";
 
-const Square = ({ index }) => {
+const Square = ({index}: {index: number}) => {
   
   const [hover, setHover] = useState(false);
+  const [disabled, setDisabled] = useState(false)
   const {
     resetBoard,
     setResetBoard,
@@ -17,7 +19,9 @@ const Square = ({ index }) => {
     gameWon,
     gameDraw,
     winningSequence,
-    cpuTurn
+    cpuTurn,
+    vsPlayerMode, 
+    cpuMode
   } = useContext(AppContext);
   
   const [value, setValue] = useState(gameState[index]);
@@ -37,15 +41,29 @@ const Square = ({ index }) => {
     setValue(gameState[index])
   }, [gameState])
   
+  useEffect(() => {
+    if (value) {
+      setDisabled(true)
+    } else {
+      setDisabled(false)
+    }
+    
+  }, [value])
 
-  // useEffect(() => {
-  //   if (cpuTurn) {
-  //     setHover(false)
-  //   }
-  //   else {
-  //     setHover(true)
-  //   }
-  // }, [cpuTurn])
+
+function updateGameState() {
+  const db = getDatabase();
+
+  // A post entry.
+  const postData = Object.assign([...gameState], {
+    [index]: playerValue(player),
+  });
+
+  set(ref(db, 'gameRooms/testRoom/gameState'), {
+    ...postData
+  })
+}
+ 
   
   function setBackgroundColor() {
     if (value === 'X') return '#31C3BD';
@@ -77,23 +95,30 @@ const Square = ({ index }) => {
   }
 
   function handleClick() {
-    
-    if (!cpuTurn) {
+    console.log(cpuMode);
+    if (!cpuTurn && cpuMode) {
       setHover(false);
-    setValue(playerValue(player));
-    const newGameValues = Object.assign([...gameState], {
-      [index]: playerValue(player),
-    });
-    setGameState(newGameValues);
-    setPlayer(!player);
+      const value = playerValue(player)
+      setValue(value);
+      const newGameValues = Object.assign([...gameState], {
+        [index]: playerValue(player),
+      });
+      setGameState(newGameValues);
+      setPlayer(!player);
     }
     
+    if (vsPlayerMode) {
+      setHover(false);
+      setValue(playerValue(player));
+      updateGameState()
+      setPlayer(!player);
+    }
   }
   return (
     <button
       onMouseEnter={(e) => value ? setHover(false) : setHover(true)}
       onMouseLeave={(e) => setHover(false)}
-      disabled={value || gameWon || gameDraw || cpuTurn}
+      disabled={disabled || gameWon || gameDraw || cpuTurn}
       className={`board-square`}
       style={{
         backgroundColor: winningSequence.includes(index) ? setBackgroundColor() : '#1F3641',
